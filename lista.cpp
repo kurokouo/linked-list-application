@@ -129,9 +129,22 @@ void printList(Node *start) {
     std::cout << "ID: " << current->tasks.ID << " | ";
     std::cout << "description: " << current->tasks.description << " | ";
     std::cout << "priority: " << current->tasks.priority << " | ";
+    std::cout << std::endl;
     current = current->next;
   }
   std::cout << std::endl;
+}
+
+void removePriority(Node *&start, int priority){
+  Node *current = start;
+
+  while(current != nullptr){
+    if(current->tasks.priority == priority){
+      removeID(*&start, current->tasks.ID);
+    }
+
+    current = current->next;
+  }
 }
 
 int main() {
@@ -152,23 +165,33 @@ int main() {
         int id;
         std::string description;
         int priority;
-        std::cout << "please enter first the ID and the priority:\n";
+        std::cout << "enter the node tasks in the following format: ID  Priority  Description" << std::endl;
         std::cin >> id >> priority;
-        std::cout << "now say the description";
         std::getline(std::cin, description);
         insert(head, id, description, priority);
       }
     } else if (command == "deleteID") {
-      std::cout << "digit the id you want to delete";
+      std::cout << "digit the id you want to delete" << std::endl;
       int id;
       std::cin >> id;
       removeID(*&head, id);
     } else if (command == "search") {
-      // TODO: Add search logic
+      std::cout << "digit the id you want to insert" << std:: endl;
+      int id;
+      std::cin >> id;
+
+      Node *target = findID(head, id);
+
+      std::cout << target->tasks.ID << " | " << target->tasks.description << " | " << target->tasks.priority << " | " << std::endl;
     } else if (command == "DeletePrio") {
-      // TODO: Add delete by priority logic
+      std::cout << "digit the priority you want to delete" << std::endl;
+      int priority;
+      std::cin >> priority;
+      
+      removePriority(*&head, priority);
     } else if (command == "exhibit") {
-      // TODO: Add exhibit logic
+      printList(*&head);
+
     } else {
       std::cout << "Invalid command! Please try again.\n";
     }
