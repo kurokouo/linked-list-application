@@ -88,6 +88,17 @@ Node *findID(Node *start, int id) {
   }
   return nullptr; // Not found
 }
+void printID(Node *start, int id) {
+  Node *print = findID(start, id);
+  if (print == nullptr) {
+    std::cout << "task was not found";
+    return;
+  }
+
+  std::cout << "task ID: " << print->tasks.ID << "\n"
+            << "task description: " << print->tasks.description << "\n"
+            << "task priority: " << print->tasks.priority;
+}
 void removeID(Node *&start, int id) {
   Node *dead = findID(start, id); // dead because its going to be deleted
   if (dead == nullptr) {
