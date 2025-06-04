@@ -127,21 +127,21 @@ void printList(Node *start) {
   Node *current = sortnodesID(start);
   while (current != nullptr) { // traverse all the nodes to print them all
     std::cout << std::string(30, '=') << std::endl;
-    
+
     std::cout << "ID: " << current->tasks.ID << std::endl;
     std::cout << "description: " << current->tasks.description << std::endl;
     std::cout << "priority: " << current->tasks.priority << std::endl;
-    
+
     current = current->next;
   }
   std::cout << std::string(30, '=') << std::endl;
 }
 
-void removePriority(Node *&start, int priority){
+void removePriority(Node *&start, int priority) {
   Node *current = start;
 
-  while(current != nullptr){
-    if(current->tasks.priority == priority){
+  while (current != nullptr) {
+    if (current->tasks.priority == priority) {
       removeID(*&start, current->tasks.ID);
     }
 
@@ -149,46 +149,50 @@ void removePriority(Node *&start, int priority){
   }
 }
 
-bool checkID(Node *&head, int id){
-  if(findID(head, id) != nullptr){
+bool checkID(Node *&head, int id) {
+  if (findID(head, id) != nullptr) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
 }
 
-bool checkInterval(int num){
-  if(num < 1 || num > 3){
+bool checkInterval(int num) {
+  if (num < 1 || num > 3) {
     return true;
-  }
-  else{
+  } else {
     return false;
   }
 }
 
 int main() {
 
-  std::cout 
-  << "  _       _____ ______             _____ _                 _       _             \n"
-  << " | |     / ____|  ____|           / ____(_)               | |     | |            \n"
-  << " | |    | (___ | |__     ______  | (___  _ _ __ ___  _   _| | __ _| |_ ___  _ __ \n"
-  << " | |     \\___ \\|  __|   |______|  \\___ \\| | '_ ` _ \\| | | | |/ _` | __/ _ \\| '__|\n"
-  << " | |____ ____) | |____            ____) | | | | | | | |_| | | (_| | || (_) | |   \n"
-  << " |______|_____/|______|          |_____/|_|_| |_| |_|\\__,_|_|\\__,_|\\__\\___/|_|   \n"
-  << "                                                                                 \n";
+  std::cout << "  _       _____ ______             _____ _                 _   "
+               "    _             \n"
+            << " | |     / ____|  ____|           / ____(_)               | |  "
+               "   | |            \n"
+            << " | |    | (___ | |__     ______  | (___  _ _ __ ___  _   _| | "
+               "__ _| |_ ___  _ __ \n"
+            << " | |     \\___ \\|  __|   |______|  \\___ \\| | '_ ` _ \\| | | "
+               "| |/ _` | __/ _ \\| '__|\n"
+            << " | |____ ____) | |____            ____) | | | | | | | |_| | | "
+               "(_| | || (_) | |   \n"
+            << " |______|_____/|______|          |_____/|_|_| |_| "
+               "|_|\\__,_|_|\\__,_|\\__\\___/|_|   \n"
+            << "                                                               "
+               "                  \n";
 
   Node *head = nullptr;
   std::cout << menu;
   std::string command = "";
   while (true) {
-    std::cout << "Enter command: ";
+    std::cout << "Enter command(menu to see commands): ";
     std::cin >> command;
     if (command == "exit") {
       std::cout << "Exiting the program\n";
       break;
     } else if (command == "insert") {
-      std::cout << "digit the ammount of elements you want to add (maximum of 3 elements allowed)\n";
+      std::cout << "digit the ammount of elements you want to add \n";
       int num = 0;
       std::cin >> num;
 
@@ -196,21 +200,24 @@ int main() {
         int id;
         std::string description;
         int priority;
-        std::cout << "enter the node tasks in the following format: ID  Priority  Description" << std::endl;
+        std::cout << "enter the tasks in the following format: ID | "
+                     "Priority(1-3) | Description"
+                  << std::endl;
         std::cin >> id >> priority;
         std::getline(std::cin, description);
 
-        if(checkInterval(priority) == true){
-          std::cout << "please enter a priority from 1 to 3" << std::endl;
-          num++;
-          continue;
+        while (checkID(head, id) == true) {
+          std::cout << "id is already being used, digit another one:\n";
+          std::cin >> id;
         }
 
-        if(checkID(head, id) == false){
-          insert(head, id, description, priority);
+        if (checkInterval(priority) == true) {
+          std::cout << "please enter a priority from 1 to 3 to task with id: "
+                    << id << std::endl;
+          std::cin >> priority;
         }
 
-       
+        insert(head, id, description, priority);
       }
     } else if (command == "deleteID") {
       std::cout << "digit the id you want to delete" << std::endl;
@@ -218,25 +225,30 @@ int main() {
       std::cin >> id;
       removeID(*&head, id);
     } else if (command == "search") {
-      std::cout << "digit the id you want to insert" << std:: endl;
+      std::cout << "digit the id you want to insert" << std::endl;
       int id;
       std::cin >> id;
 
       Node *target = findID(head, id);
 
-      std::cout << target->tasks.ID << " | " << target->tasks.description << " | " << target->tasks.priority << " | " << std::endl;
+      std::cout << target->tasks.ID << " | " << target->tasks.description
+                << " | " << target->tasks.priority << " | " << std::endl;
     } else if (command == "DeletePrio") {
       std::cout << "digit the priority you want to delete" << std::endl;
       int priority;
       std::cin >> priority;
-      
+
       removePriority(*&head, priority);
     } else if (command == "exhibit") {
       printList(*&head);
 
+    } else if (command == "menu") {
+      std::cout << menu;
     } else {
       std::cout << "Invalid command! Please try again.\n";
     }
-    std::cout << std::endl;
+    for (int i = 0; i < 3; i++) {
+      std::cout << std::endl;
+    }
   }
 }
