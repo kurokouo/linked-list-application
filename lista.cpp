@@ -206,12 +206,12 @@ int main() {
         std::cin >> id >> priority;
         std::getline(std::cin, description);
 
-        while (checkID(head, id) == true) {
+        while (checkID(head, id)) {
           std::cout << "id is already being used, digit another one:\n";
           std::cin >> id;
         }
 
-        if (checkInterval(priority) == true) {
+        while(checkInterval(priority)) {
           std::cout << "please enter a priority from 1 to 3 to task with id: "
                     << id << std::endl;
           std::cin >> priority;
