@@ -126,13 +126,15 @@ void removeID(Node *&start, int id) {
 void printList(Node *start) {
   Node *current = sortnodesID(start);
   while (current != nullptr) { // traverse all the nodes to print them all
-    std::cout << "ID: " << current->tasks.ID << " | ";
-    std::cout << "description: " << current->tasks.description << " | ";
-    std::cout << "priority: " << current->tasks.priority << " | ";
-    std::cout << std::endl;
+    std::cout << std::string(30, '=') << std::endl;
+    
+    std::cout << "ID: " << current->tasks.ID << std::endl;
+    std::cout << "description: " << current->tasks.description << std::endl;
+    std::cout << "priority: " << current->tasks.priority << std::endl;
+    
     current = current->next;
   }
-  std::cout << std::endl;
+  std::cout << std::string(30, '=') << std::endl;
 }
 
 void removePriority(Node *&start, int priority){
@@ -147,7 +149,35 @@ void removePriority(Node *&start, int priority){
   }
 }
 
+bool checkID(Node *&head, int id){
+  if(findID(head, id) != nullptr){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
+bool checkInterval(int num){
+  if(num < 1 || num > 3){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
+
 int main() {
+
+  std::cout 
+  << "  _       _____ ______             _____ _                 _       _             \n"
+  << " | |     / ____|  ____|           / ____(_)               | |     | |            \n"
+  << " | |    | (___ | |__     ______  | (___  _ _ __ ___  _   _| | __ _| |_ ___  _ __ \n"
+  << " | |     \\___ \\|  __|   |______|  \\___ \\| | '_ ` _ \\| | | | |/ _` | __/ _ \\| '__|\n"
+  << " | |____ ____) | |____            ____) | | | | | | | |_| | | (_| | || (_) | |   \n"
+  << " |______|_____/|______|          |_____/|_|_| |_| |_|\\__,_|_|\\__,_|\\__\\___/|_|   \n"
+  << "                                                                                 \n";
+
   Node *head = nullptr;
   std::cout << menu;
   std::string command = "";
@@ -158,9 +188,15 @@ int main() {
       std::cout << "Exiting the program\n";
       break;
     } else if (command == "insert") {
-      std::cout << "digit the ammount of elements you want to add\n";
+      std::cout << "digit the ammount of elements you want to add (maximum of 3 elements allowed)\n";
       int num = 0;
       std::cin >> num;
+
+      if(checkInterval(num) == true){
+        std::cout << "please enter a number from 1 to 3" << std::endl;
+        continue;
+      }
+
       while (num--) {
         int id;
         std::string description;
@@ -168,7 +204,18 @@ int main() {
         std::cout << "enter the node tasks in the following format: ID  Priority  Description" << std::endl;
         std::cin >> id >> priority;
         std::getline(std::cin, description);
-        insert(head, id, description, priority);
+
+        if(checkInterval(id) == true){
+          std::cout << "please enter an ID from 1 to 3" << std::endl;
+          num++;
+          continue;
+        }
+
+        if(checkID(head, id) == false){
+          insert(head, id, description, priority);
+        }
+
+       
       }
     } else if (command == "deleteID") {
       std::cout << "digit the id you want to delete" << std::endl;
