@@ -192,11 +192,6 @@ int main() {
       int num = 0;
       std::cin >> num;
 
-      if(checkInterval(num) == true){
-        std::cout << "please enter a number from 1 to 3" << std::endl;
-        continue;
-      }
-
       while (num--) {
         int id;
         std::string description;
@@ -205,8 +200,8 @@ int main() {
         std::cin >> id >> priority;
         std::getline(std::cin, description);
 
-        if(checkInterval(id) == true){
-          std::cout << "please enter an ID from 1 to 3" << std::endl;
+        if(checkInterval(priority) == true){
+          std::cout << "please enter a priority from 1 to 3" << std::endl;
           num++;
           continue;
         }
